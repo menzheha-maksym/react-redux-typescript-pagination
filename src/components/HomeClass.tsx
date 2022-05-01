@@ -1,9 +1,20 @@
 import React, { Component } from "react";
 import withNavigate from "./withNavigate";
 import Pagination from "./Pagination";
+import { NavigateFunction } from "react-router-dom";
 
-class HomeClass extends Component {
-  constructor(props) {
+type HomeClassProps = {
+  navigate: NavigateFunction;
+  location: Location;
+};
+
+type HomeClassState = {
+  skip: number;
+  activePage: number;
+};
+
+class HomeClass extends Component<HomeClassProps, HomeClassState> {
+  constructor(props: HomeClassProps) {
     super(props);
     this.state = {
       skip: 0,
@@ -28,20 +39,20 @@ class HomeClass extends Component {
   //   return false;
   // }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps: HomeClassProps, prevState: HomeClassState) {
     console.log("update");
     if (prevState.activePage !== this.state.activePage) {
       this.props.navigate("/" + this.state.activePage);
     }
   }
 
-  updateSkip(skip) {
+  updateSkip(skip: number) {
     if (this.state.skip !== skip) {
       this.setState({ skip: skip });
     }
   }
 
-  updateActivePage(active) {
+  updateActivePage(active: number) {
     if (active !== this.state.activePage) {
       this.setState({ activePage: active });
     }
