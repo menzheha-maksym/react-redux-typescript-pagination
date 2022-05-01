@@ -1,7 +1,13 @@
 import { useEffect, useState } from "react";
 import styles from "./Pagination.module.css";
 
-const Pagination = ({ itemsCount, itemsPerPage, updateSkip, skip }) => {
+const Pagination = ({
+  itemsCount,
+  itemsPerPage,
+  updateSkip,
+  skip,
+  updateActivePage,
+}) => {
   const [buttons, setButtons] = useState();
   const [activeButton, setActiveButton] = useState(1);
 
@@ -30,6 +36,10 @@ const Pagination = ({ itemsCount, itemsPerPage, updateSkip, skip }) => {
   useEffect(() => {
     updateSkip(activeButton * itemsPerPage - itemsPerPage);
   }, [activeButton, itemsPerPage, updateSkip]);
+
+  useEffect(() => {
+    updateActivePage(activeButton);
+  }, [activeButton, updateActivePage]);
 
   useEffect(() => {
     if (skip - itemsPerPage < 0) {

@@ -1,14 +1,29 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import Pagination from "./Pagination";
 
 export default function Home() {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [skip, setSkip] = useState(0);
+  const [activePage, setActivePage] = useState(1);
+
+  useEffect(() => {
+    const page = location.pathname.split("/")[1];
+    if (page) {
+    }
+  }, [location, navigate]);
 
   function updateSkip(skip) {
     setSkip(skip);
+  }
+
+  function updateActivePage(active) {
+    if (active !== activePage) {
+      setActivePage(active);
+      navigate("/" + active);
+    }
   }
 
   return (
@@ -20,6 +35,7 @@ export default function Home() {
         itemsPerPage={2}
         skip={skip}
         updateSkip={updateSkip}
+        updateActivePage={updateActivePage}
       />
     </div>
   );
