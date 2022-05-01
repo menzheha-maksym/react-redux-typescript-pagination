@@ -51,7 +51,13 @@ class HomeClass extends Component {
     return (
       <div>
         <div>HomeClass</div>
-        <button onClick={() => this.props.navigate("/desc")}>
+        <button
+          onClick={() =>
+            this.props.navigate("/desc", {
+              state: { prevPath: "/" + this.state.activePage },
+            })
+          }
+        >
           DESCRIPTION
         </button>
         <Pagination
