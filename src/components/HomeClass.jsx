@@ -14,8 +14,31 @@ class HomeClass extends Component {
     this.updateActivePage = this.updateActivePage.bind(this);
   }
 
+  componentDidMount() {
+    console.log(this.props.location);
+    const currentPage = this.props.location.pathname.split("/")[1];
+    if (this.props.location.pathname !== "/" && currentPage) {
+      // this.props.navigate("/" + currentPage);
+      this.setState({ activePage: Number(currentPage) });
+    }
+  }
+
+  // shouldComponentUpdate() {
+  //   console.log("should update");
+  //   return false;
+  // }
+
+  componentDidUpdate(prevProps, prevState) {
+    console.log("update");
+    if (prevState.activePage !== this.state.activePage) {
+      this.props.navigate("/" + this.state.activePage);
+    }
+  }
+
   updateSkip(skip) {
-    this.setState({ skip: skip });
+    if (this.state.skip !== skip) {
+      this.setState({ skip: skip });
+    }
   }
 
   updateActivePage(active) {
@@ -36,6 +59,7 @@ class HomeClass extends Component {
           itemsPerPage={2}
           skip={this.state.skip}
           updateSkip={this.updateSkip}
+          activePage={this.state.activePage}
           updateActivePage={this.updateActivePage}
         />
       </div>

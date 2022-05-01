@@ -6,6 +6,7 @@ const Pagination = ({
   itemsPerPage,
   updateSkip,
   skip,
+  activePage,
   updateActivePage,
 }) => {
   const [buttons, setButtons] = useState();
@@ -23,6 +24,10 @@ const Pagination = ({
     updateSkip(skip + itemsPerPage);
     setActiveButton(activeButton + 1);
   }
+
+  useEffect(() => {
+    setActiveButton(activePage);
+  }, [activePage]);
 
   useEffect(() => {
     const buttonsCount = Math.ceil(itemsCount / itemsPerPage);
