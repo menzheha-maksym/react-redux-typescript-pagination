@@ -1,7 +1,16 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./Pagination.module.css";
 
-const Pagination = ({
+interface PaginationProps {
+  itemsCount: number;
+  itemsPerPage: number;
+  updateSkip: (skip: number) => void;
+  skip: number;
+  activePage: number;
+  updateActivePage: (page: number) => void;
+}
+
+const Pagination: React.FC<PaginationProps> = ({
   itemsCount,
   itemsPerPage,
   updateSkip,
@@ -9,7 +18,7 @@ const Pagination = ({
   activePage,
   updateActivePage,
 }) => {
-  const [buttons, setButtons] = useState();
+  const [buttons, setButtons] = useState<number[]>();
   const [activeButton, setActiveButton] = useState(1);
 
   const [disablePrevButton, setDisablePrevButton] = useState(false);
