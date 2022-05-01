@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from "react-router-dom";
 
-const withNavigate = (Component) => {
+const withNavigateAndLocation = (Component) => {
   const Wrapper = (props) => {
     const navigate = useNavigate();
     const location = useLocation();
@@ -11,4 +11,4 @@ const withNavigate = (Component) => {
   return Wrapper;
 };
 
-export default withNavigate;
+export default withNavigateAndLocation;

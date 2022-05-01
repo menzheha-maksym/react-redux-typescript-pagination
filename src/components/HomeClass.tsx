@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import withNavigate from "./withNavigate";
+import withNavigateAndLocation from "./withNavigateAndLocation";
 import Pagination from "./Pagination";
 import { NavigateFunction } from "react-router-dom";
 
@@ -84,4 +84,4 @@ class HomeClass extends Component<HomeClassProps, HomeClassState> {
   }
 }
 
-export default withNavigate(HomeClass);
+export default withNavigateAndLocation(HomeClass);
