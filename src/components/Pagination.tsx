@@ -1,4 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import {
+  nextPage,
+  prevPage,
+  selectActivePage,
+  selectPages,
+  setPage,
+  addPages,
+  disablePrevButton,
+  enablePrevButton,
+  disableNextButton,
+  enableNextButton,
+  selectNextButton,
+  selectPrevButton,
+} from "../redux/paginationSlice";
 import styles from "./Pagination.module.css";
 
 interface PaginationProps {
@@ -15,70 +30,66 @@ const Pagination: React.FC<PaginationProps> = ({
   itemsPerPage,
   updateSkip,
   skip,
-  activePage,
+  activePage: activePageProp,
   updateActivePage,
 }) => {
-  const [buttons, setButtons] = useState<number[]>();
-  const [activeButton, setActiveButton] = useState(1);
+  const dispatch = useAppDispatch();
 
-  const [disablePrevButton, setDisablePrevButton] = useState(false);
-  const [disableNextButton, setDisableNextButton] = useState(false);
+  const activePage = useAppSelector(selectActivePage);
+  const pages = useAppSelector(selectPages);
+  const nextButton = useAppSelector(selectNextButton);
+  const prevButton = useAppSelector(selectPrevButton);
 
   function previousButtonClick() {
     updateSkip(skip - itemsPerPage);
-    setActiveButton(activeButton - 1);
+    dispatch(prevPage());
   }
 
   function nextButtonClick() {
     updateSkip(skip + itemsPerPage);
-    setActiveButton(activeButton + 1);
+    dispatch(nextPage());
   }
 
   useEffect(() => {
-    setActiveButton(activePage);
-  }, [activePage]);
+    dispatch(setPage(activePageProp));
+  }, [activePageProp, dispatch]);
 
   useEffect(() => {
-    const buttonsCount = Math.ceil(itemsCount / itemsPerPage);
-    const buttonsArr = [];
-    for (let i = 1; i < buttonsCount + 1; i++) {
-      buttonsArr.push(i);
-    }
-    setButtons(buttonsArr);
-  }, [itemsCount, itemsPerPage]);
+    dispatch(addPages({ itemsCount, itemsPerPage }));
+  }, [dispatch, itemsCount, itemsPerPage]);
 
   useEffect(() => {
-    updateSkip(activeButton * itemsPerPage - itemsPerPage);
-  }, [activeButton, itemsPerPage, updateSkip]);
+    updateSkip(activePage * itemsPerPage - itemsPerPage);
+  }, [activePage, itemsPerPage, updateSkip]);
 
   useEffect(() => {
-    updateActivePage(activeButton);
-  }, [activeButton, updateActivePage]);
+    updateActivePage(activePage);
+  }, [activePage, updateActivePage]);
 
   useEffect(() => {
     if (skip - itemsPerPage < 0) {
-      setDisablePrevButton(true);
+      dispatch(disablePrevButton());
     } else {
-      setDisablePrevButton(false);
+      dispatch(enablePrevButton());
     }
 
     if (skip + itemsPerPage >= itemsCount) {
-      setDisableNextButton(true);
+      dispatch(disableNextButton());
     } else {
-      setDisableNextButton(false);
+      dispatch(enableNextButton());
     }
-  }, [itemsCount, itemsPerPage, skip]);
+  }, [dispatch, itemsCount, itemsPerPage, skip]);
 
   return (
     <>
       <div className={styles["container"]}>
-        <button disabled={disablePrevButton} onClick={previousButtonClick}>
+        <button disabled={!prevButton} onClick={previousButtonClick}>
           previous
         </button>
         <div className={styles["number-buttons-container"]}>
-          {buttons
-            ? buttons.map((button, i) => {
-                if (button === activeButton) {
+          {pages
+            ? pages.map((button, i) => {
+                if (button === activePage) {
                   return (
                     <button className={styles["active-button"]} key={i}>
                       {button}
@@ -86,7 +97,7 @@ const Pagination: React.FC<PaginationProps> = ({
                   );
                 } else {
                   return (
-                    <button key={i} onClick={() => setActiveButton(i + 1)}>
+                    <button key={i} onClick={() => dispatch(setPage(i + 1))}>
                       {button}
                     </button>
                   );
@@ -94,7 +105,7 @@ const Pagination: React.FC<PaginationProps> = ({
               })
             : null}
         </div>
-        <button disabled={disableNextButton} onClick={nextButtonClick}>
+        <button disabled={!nextButton} onClick={nextButtonClick}>
           next
         </button>
       </div>
