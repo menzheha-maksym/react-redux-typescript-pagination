@@ -4,21 +4,21 @@ import Pagination from "./Pagination";
 
 export default function Home() {
   const navigate = useNavigate();
-  const location = useLocation();
+  // const location = useLocation();
 
-  const [skip, setSkip] = useState(0);
-  const [activePage, setActivePage] = useState(1);
+  // const [skip, setSkip] = useState(0);
+  // const [activePage, setActivePage] = useState(1);
 
-  function updateSkip(skip) {
-    setSkip(skip);
-  }
+  // function updateSkip(skip) {
+  //   setSkip(skip);
+  // }
 
-  function updateActivePage(active) {
-    if (active !== activePage) {
-      setActivePage(active);
-      // navigate("/" + active);
-    }
-  }
+  // function updateActivePage(active) {
+  //   if (active !== activePage) {
+  //     setActivePage(active);
+  //     // navigate("/" + active);
+  //   }
+  // }
 
   return (
     <div>
