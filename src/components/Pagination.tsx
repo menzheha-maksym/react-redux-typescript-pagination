@@ -13,21 +13,19 @@ import {
   enableNextButton,
   selectNextButton,
   selectPrevButton,
+  selectSkip,
+  setSkip,
 } from "../redux/paginationSlice";
 import styles from "./Pagination.module.css";
 
 interface PaginationProps {
   itemsCount: number;
   itemsPerPage: number;
-  updateSkip: (skip: number) => void;
-  skip: number;
 }
 
 const Pagination: React.FC<PaginationProps> = ({
   itemsCount,
   itemsPerPage,
-  updateSkip,
-  skip,
 }) => {
   const dispatch = useAppDispatch();
 
@@ -35,14 +33,15 @@ const Pagination: React.FC<PaginationProps> = ({
   const pages = useAppSelector(selectPages);
   const nextButton = useAppSelector(selectNextButton);
   const prevButton = useAppSelector(selectPrevButton);
+  const skip = useAppSelector(selectSkip);
 
   function previousButtonClick() {
-    updateSkip(skip - itemsPerPage);
+    dispatch(setSkip(skip - itemsPerPage));
     dispatch(prevPage());
   }
 
   function nextButtonClick() {
-    updateSkip(skip + itemsPerPage);
+    dispatch(setSkip(skip + itemsPerPage));
     dispatch(nextPage());
   }
 
@@ -51,8 +50,8 @@ const Pagination: React.FC<PaginationProps> = ({
   }, [dispatch, itemsCount, itemsPerPage]);
 
   useEffect(() => {
-    updateSkip(activePage * itemsPerPage - itemsPerPage);
-  }, [activePage, itemsPerPage, updateSkip]);
+    dispatch(setSkip(activePage * itemsPerPage - itemsPerPage));
+  }, [activePage, dispatch, itemsPerPage, skip]);
 
   useEffect(() => {
     if (skip - itemsPerPage < 0) {

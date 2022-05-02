@@ -6,6 +6,7 @@ export interface PagesState {
   activePage: number;
   nextButtonActive: boolean;
   prevButtonActive: boolean;
+  skip: number;
 }
 
 const initialState: PagesState = {
@@ -13,6 +14,7 @@ const initialState: PagesState = {
   activePage: 1,
   nextButtonActive: false,
   prevButtonActive: false,
+  skip: 0,
 };
 
 export const pagesSlice = createSlice({
@@ -53,6 +55,9 @@ export const pagesSlice = createSlice({
     disablePrevButton: (state) => {
       state.prevButtonActive = false;
     },
+    setSkip: (state, action: PayloadAction<number>) => {
+      state.skip = action.payload;
+    },
   },
 });
 
@@ -65,6 +70,7 @@ export const {
   disableNextButton,
   enablePrevButton,
   disablePrevButton,
+  setSkip,
 } = pagesSlice.actions;
 
 export const selectActivePage = (state: RootState) => state.page.activePage;
@@ -73,5 +79,6 @@ export const selectNextButton = (state: RootState) =>
   state.page.nextButtonActive;
 export const selectPrevButton = (state: RootState) =>
   state.page.prevButtonActive;
+export const selectSkip = (state: RootState) => state.page.skip;
 
 export default pagesSlice.reducer;

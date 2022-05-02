@@ -24,12 +24,7 @@ export default function Home() {
     <div>
       <div>Home</div>
       <button onClick={() => navigate("/desc")}>DESCRIPTION</button>
-      <Pagination
-        itemsCount={10}
-        itemsPerPage={2}
-        skip={skip}
-        updateSkip={updateSkip}
-      />
+      <Pagination itemsCount={10} itemsPerPage={2} />
     </div>
   );
 }
