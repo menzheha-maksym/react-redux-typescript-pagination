@@ -29,7 +29,6 @@ export default function Home() {
         itemsPerPage={2}
         skip={skip}
         updateSkip={updateSkip}
-        updateActivePage={updateActivePage}
       />
     </div>
   );

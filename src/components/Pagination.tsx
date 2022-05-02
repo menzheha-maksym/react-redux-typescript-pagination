@@ -21,8 +21,6 @@ interface PaginationProps {
   itemsPerPage: number;
   updateSkip: (skip: number) => void;
   skip: number;
-  activePage: number;
-  updateActivePage: (page: number) => void;
 }
 
 const Pagination: React.FC<PaginationProps> = ({
@@ -30,8 +28,6 @@ const Pagination: React.FC<PaginationProps> = ({
   itemsPerPage,
   updateSkip,
   skip,
-  activePage: activePageProp,
-  updateActivePage,
 }) => {
   const dispatch = useAppDispatch();
 
@@ -57,10 +53,6 @@ const Pagination: React.FC<PaginationProps> = ({
   useEffect(() => {
     updateSkip(activePage * itemsPerPage - itemsPerPage);
   }, [activePage, itemsPerPage, updateSkip]);
-
-  useEffect(() => {
-    updateActivePage(activePage);
-  }, [activePage, updateActivePage]);
 
   useEffect(() => {
     if (skip - itemsPerPage < 0) {
