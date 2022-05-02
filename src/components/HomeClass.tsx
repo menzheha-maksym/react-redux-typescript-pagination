@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import withNavigateAndLocation from "./withNavigateAndLocation";
-import Pagination from "./Pagination";
+// import Pagination from "./Pagination";
 import { NavigateFunction } from "react-router-dom";
 
 type HomeClassProps = {
@@ -71,14 +71,14 @@ class HomeClass extends Component<HomeClassProps, HomeClassState> {
         >
           DESCRIPTION
         </button>
-        <Pagination
+        {/* <Pagination
           itemsCount={10}
           itemsPerPage={2}
           skip={this.state.skip}
           updateSkip={this.updateSkip}
           activePage={this.state.activePage}
-          updateActivePage={this.updateActivePage}
-        />
+          // updateActivePage={this.updateActivePage}
+        /> */}
       </div>
     );
   }

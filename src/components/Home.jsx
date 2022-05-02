@@ -9,12 +9,6 @@ export default function Home() {
   const [skip, setSkip] = useState(0);
   const [activePage, setActivePage] = useState(1);
 
-  useEffect(() => {
-    const page = location.pathname.split("/")[1];
-    if (page) {
-    }
-  }, [location, navigate]);
-
   function updateSkip(skip) {
     setSkip(skip);
   }
@@ -22,7 +16,7 @@ export default function Home() {
   function updateActivePage(active) {
     if (active !== activePage) {
       setActivePage(active);
-      navigate("/" + active);
+      // navigate("/" + active);
     }
   }
 

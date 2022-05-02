@@ -51,10 +51,6 @@ const Pagination: React.FC<PaginationProps> = ({
   }
 
   useEffect(() => {
-    dispatch(setPage(activePageProp));
-  }, [activePageProp, dispatch]);
-
-  useEffect(() => {
     dispatch(addPages({ itemsCount, itemsPerPage }));
   }, [dispatch, itemsCount, itemsPerPage]);
 
