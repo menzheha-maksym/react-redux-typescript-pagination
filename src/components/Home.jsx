@@ -17,16 +17,20 @@ export default function Home() {
   }, [location]);
 
   useEffect(() => {
+    const currentPage = location.pathname.split("/")[1];
     // componentDidUpdate
-    if (mounted.current) {
+    if (mounted.current && activePage !== Number(currentPage)) {
       navigate("/" + activePage);
+      console.log("update");
+      console.log("currentPage: ", currentPage);
+      console.log("activePage: ", activePage);
     }
     // componentDidMount
     else if (!mounted.current) {
-      const currentPage = location.pathname.split("/")[1];
+      console.log("mount");
+
       if (currentPage && activePage !== Number(currentPage)) {
         dispatch(setPage(Number(currentPage)));
-        console.log("kek");
       }
     }
     mounted.current = true;
