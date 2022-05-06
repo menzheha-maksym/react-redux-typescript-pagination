@@ -13,22 +13,13 @@ export default function Home() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    console.log(location);
-  }, [location]);
-
-  useEffect(() => {
     const currentPage = location.pathname.split("/")[1];
     // componentDidUpdate
     if (mounted.current && activePage !== Number(currentPage)) {
       navigate("/" + activePage);
-      console.log("update");
-      console.log("currentPage: ", currentPage);
-      console.log("activePage: ", activePage);
     }
     // componentDidMount
     else if (!mounted.current) {
-      console.log("mount");
-
       if (currentPage && activePage !== Number(currentPage)) {
         dispatch(setPage(Number(currentPage)));
       }
