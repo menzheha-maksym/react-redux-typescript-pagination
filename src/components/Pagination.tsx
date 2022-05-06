@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import {
   nextPage,
@@ -35,13 +35,13 @@ const Pagination: React.FC<PaginationProps> = ({
   const prevButton = useAppSelector(selectPrevButton);
   const skip = useAppSelector(selectSkip);
 
+  const mounted = useRef(false);
+
   function previousButtonClick() {
-    dispatch(setSkip(skip - itemsPerPage));
     dispatch(prevPage());
   }
 
   function nextButtonClick() {
-    dispatch(setSkip(skip + itemsPerPage));
     dispatch(nextPage());
   }
 
@@ -50,7 +50,11 @@ const Pagination: React.FC<PaginationProps> = ({
   }, [dispatch, itemsCount, itemsPerPage]);
 
   useEffect(() => {
-    dispatch(setSkip(activePage * itemsPerPage - itemsPerPage));
+    // works like componentDidUpdate()
+    if (mounted.current) {
+      dispatch(setSkip(activePage * itemsPerPage - itemsPerPage));
+    }
+    mounted.current = true;
   }, [activePage, dispatch, itemsPerPage]);
 
   useEffect(() => {
