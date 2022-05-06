@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useAppSelector } from "../redux/hooks";
-import { selectActivePage } from "../redux/paginationSlice";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { selectActivePage, setPage } from "../redux/paginationSlice";
 import Pagination from "./Pagination";
 
 export default function Home() {
@@ -10,21 +10,27 @@ export default function Home() {
   const mounted = useRef(false);
 
   const activePage = useAppSelector(selectActivePage);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     console.log(location);
   }, [location]);
 
-  // useEffect(() => {
-  //   const currentPage =
-  // }, [])
-
   useEffect(() => {
+    // componentDidUpdate
     if (mounted.current) {
       navigate("/" + activePage);
     }
+    // componentDidMount
+    else if (!mounted.current) {
+      const currentPage = location.pathname.split("/")[1];
+      if (currentPage && activePage !== Number(currentPage)) {
+        dispatch(setPage(Number(currentPage)));
+        console.log("kek");
+      }
+    }
     mounted.current = true;
-  }, [activePage, navigate]);
+  }, [activePage, dispatch, location.pathname, navigate]);
 
   function handleNavigate() {
     const currentPage = location.pathname.split("/")[1];
@@ -34,10 +40,6 @@ export default function Home() {
       navigate("/desc", { state: { prevPath: "/" } });
     }
   }
-
-  useEffect(() => {
-    console.log("render");
-  }, []);
 
   return (
     <div>
