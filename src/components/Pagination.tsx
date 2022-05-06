@@ -59,17 +59,17 @@ const Pagination: React.FC<PaginationProps> = ({
 
   useEffect(() => {
     if (skip - itemsPerPage < 0) {
-      dispatch(disablePrevButton());
+      if (prevButton) dispatch(disablePrevButton());
     } else {
-      dispatch(enablePrevButton());
+      if (!prevButton) dispatch(enablePrevButton());
     }
 
     if (skip + itemsPerPage >= itemsCount) {
-      dispatch(disableNextButton());
+      if (nextButton) dispatch(disableNextButton());
     } else {
-      dispatch(enableNextButton());
+      if (!nextButton) dispatch(enableNextButton());
     }
-  }, [dispatch, itemsCount, itemsPerPage, skip]);
+  }, [dispatch, itemsCount, itemsPerPage, nextButton, prevButton, skip]);
 
   return (
     <>
