@@ -51,7 +51,7 @@ const Pagination: React.FC<PaginationProps> = ({
 
   useEffect(() => {
     dispatch(setSkip(activePage * itemsPerPage - itemsPerPage));
-  }, [activePage, dispatch, itemsPerPage, skip]);
+  }, [activePage, dispatch, itemsPerPage]);
 
   useEffect(() => {
     if (skip - itemsPerPage < 0) {
