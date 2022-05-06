@@ -1,29 +1,48 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useAppSelector } from "../redux/hooks";
+import { selectActivePage } from "../redux/paginationSlice";
 import Pagination from "./Pagination";
 
 export default function Home() {
   const navigate = useNavigate();
-  // const location = useLocation();
+  const location = useLocation();
+  const mounted = useRef(false);
 
-  // const [skip, setSkip] = useState(0);
-  // const [activePage, setActivePage] = useState(1);
+  const activePage = useAppSelector(selectActivePage);
 
-  // function updateSkip(skip) {
-  //   setSkip(skip);
-  // }
+  useEffect(() => {
+    console.log(location);
+  }, [location]);
 
-  // function updateActivePage(active) {
-  //   if (active !== activePage) {
-  //     setActivePage(active);
-  //     // navigate("/" + active);
-  //   }
-  // }
+  // useEffect(() => {
+  //   const currentPage =
+  // }, [])
+
+  useEffect(() => {
+    if (mounted.current) {
+      navigate("/" + activePage);
+    }
+    mounted.current = true;
+  }, [activePage, navigate]);
+
+  function handleNavigate() {
+    const currentPage = location.pathname.split("/")[1];
+    if (currentPage) {
+      navigate("/desc", { state: { prevPath: "/" + currentPage } });
+    } else {
+      navigate("/desc", { state: { prevPath: "/" } });
+    }
+  }
+
+  useEffect(() => {
+    console.log("render");
+  }, []);
 
   return (
     <div>
       <div>Home</div>
-      <button onClick={() => navigate("/desc")}>DESCRIPTION</button>
+      <button onClick={() => handleNavigate()}>DESCRIPTION</button>
       <Pagination itemsCount={10} itemsPerPage={2} />
     </div>
   );
